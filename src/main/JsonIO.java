@@ -15,7 +15,14 @@ import com.google.gson.JsonObject;
 
 public class JsonIO {
 
-	public boolean saveJsonToFile(JsonObject json) {
+	/**
+	 * Saves given JsonObject at given location
+	 * 
+	 * @param json
+	 * @return true if saving the object was successfully
+	 * @throws IOException
+	 */
+	public boolean saveJsonToFile(JsonObject json) throws IOException {
 		try {
 			FileWriter file = new FileWriter(
 					"C:\\Users\\Markus Klenk\\Desktop\\temp\\test.json");
@@ -29,6 +36,14 @@ public class JsonIO {
 		return false;
 	}
 
+	/**
+	 * Retrieves JsonObject from given URL
+	 * 
+	 * @param url
+	 * @return JsonObject retrieved from URL
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	public JsonObject readJsonFromUrl(String url) throws IOException,
 			JSONException {
 		InputStream is = new URL(url).openStream();
