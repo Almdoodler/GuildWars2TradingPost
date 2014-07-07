@@ -1,4 +1,4 @@
-package main;
+package exporter_importer;
 
 import java.io.BufferedReader;
 import java.io.FileWriter;
@@ -52,6 +52,11 @@ public class JsonIO {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is,
 					Charset.forName("UTF-8")));
 			JsonObject json = gson.fromJson(rd, JsonObject.class);
+			if(json.has("results")){
+				json = json.getAsJsonObject("results");
+			}else{
+				json = json.getAsJsonObject("result");
+			}
 			return json;
 		} finally {
 			is.close();

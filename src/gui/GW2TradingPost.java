@@ -15,6 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.border.BevelBorder;
@@ -27,6 +28,7 @@ public class GW2TradingPost extends JFrame {
 	private static final long serialVersionUID = 1L;
 	JFrame frame;
 	JPanel mainPanel;
+	JScrollPane scrollPane;
 	JMenuBar menuBarTop;
 	JPanel statusPanel;
 	
@@ -35,7 +37,7 @@ public class GW2TradingPost extends JFrame {
 	
 	JMenu mainMenu;
 	JMenu help;
-	JMenu favListMenu;
+	JMenuItem favListItem;
 	JMenuItem save;
 	JMenuItem saveAs;
 	JMenuItem close;
@@ -50,15 +52,16 @@ public class GW2TradingPost extends JFrame {
 		statusPanel = new JPanel();
 		menuBarTop = new JMenuBar();
 		mainMenu = new JMenu("Datei");
-		favListMenu = new JMenu("Favouriten");
+		favListItem = new JMenuItem("Favouriten");
 		help = new JMenu("Hilfe");
 		save = new JMenuItem("Speichern");
 		saveAs = new JMenuItem("Speichern als...");
 		close = new JMenuItem("Beenden");
-		statusLabel = new JLabel("Letzte Aktualisierung: XX:XX:XX");
+		statusLabel = new JLabel("Letzte Aktualisierung: XX:XX");
 		helpItem = new JMenuItem("Hilfe");
 		properties = new JMenuItem("Einstellungen");
 		updateButton = new JButton("Aktualisiere Daten");
+		scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		frame.setSize(800, 600);
 		frame.setResizable(false);
@@ -77,8 +80,17 @@ public class GW2TradingPost extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
+				SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 				statusLabel.setText("Letzte Aktualsierung: " + format.format(new Date()));
+			}
+			
+		});
+		
+		favListItem.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new FavoriteManagment();
 			}
 			
 		});
@@ -88,12 +100,13 @@ public class GW2TradingPost extends JFrame {
 		
 		mainMenu.add(save);
 		mainMenu.add(saveAs);
+		mainMenu.add(favListItem);
 		mainMenu.addSeparator();
 		mainMenu.add(close);
 		
 		menuBarTop.add(mainMenu);
-		menuBarTop.add(favListMenu);
 		menuBarTop.add(help);
+		mainPanel.add(scrollPane, BorderLayout.CENTER);
 		mainPanel.add(statusPanel, BorderLayout.PAGE_END);
 		mainPanel.add(menuBarTop, BorderLayout.PAGE_START);
 		frame.add(mainPanel);

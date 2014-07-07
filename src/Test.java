@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class Test {
@@ -22,8 +23,7 @@ public class Test {
 
 		try {
 			JsonObject json = readJsonFromUrl("http://www.gw2spidy.com/api/v0.9/json/item/19746");
-			System.out.println(saveJsonToFile(json));
-			//System.out.println(json.has("data_id"));
+			System.out.println(json.has("data_id"));
 			System.out.println(json.get("data_id"));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -43,6 +43,11 @@ public class Test {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is,
 					Charset.forName("UTF-8")));
 			JsonObject json = gson.fromJson(rd, JsonObject.class);
+			if(json.has("results")){
+				json = json.getAsJsonObject("results");
+			}else{
+				json = json.getAsJsonObject("result");
+			}
 			return json;
 		} finally {
 			is.close();
