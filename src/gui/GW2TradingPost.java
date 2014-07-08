@@ -92,8 +92,10 @@ public class GW2TradingPost extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Main main= new Main();
-				model = main.updateTable((DefaultTableModel)table.getModel());
-				table.setModel(model);
+				model = main.updateTable(model);
+				scrollPane.remove(table);
+				table = new JTable(model);
+				scrollPane.add(table);
 				SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 				statusLabel.setText("Letzte Aktualsierung: " + format.format(new Date()));
 			}

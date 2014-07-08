@@ -1,6 +1,8 @@
 package exporter_importer;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +40,24 @@ public class JsonIO {
 		return false;
 	}
 
+	public JsonArray readJsonFromFile() {
+		Gson gson = new Gson();
+		JsonObject json = null;
+		FileInputStream input;
+		try {
+			input = new FileInputStream("personen.json");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					input));
+			json = gson.fromJson(reader, JsonObject.class);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		JsonArray jsonArray = json.getAsJsonArray();
+		return jsonArray;
+	}
+
 	/**
 	 * Retrieves JsonObject from given URL
 	 * 
@@ -48,28 +68,28 @@ public class JsonIO {
 	 */
 	public JsonObject readJsonFromURL(int itemID) {
 		String url = "http://www.gw2spidy.com/api/v0.9/json/item/" + itemID;
-			JsonObject json = loadJsonFromURL(url);
-			json = json.getAsJsonObject("result");
-			return json;
+		JsonObject json = loadJsonFromURL(url);
+		json = json.getAsJsonObject("result");
+		return json;
 	}
-	
-	public JsonArray readJsonArrayFromUrl(){
+
+	public JsonArray readJsonArrayFromUrl() {
 		JsonObject json = loadJsonFromURL("http://www.gw2spidy.com/api/v0.9/json/all-items/*all*");
 		JsonArray jsonArray = json.get("results").getAsJsonArray();
 		return jsonArray;
 	}
-	
-	private JsonObject loadJsonFromURL(String url){
+
+	private JsonObject loadJsonFromURL(String url) {
 		InputStream is = null;
-			try {
-				is = new URL(url).openStream();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Gson gson = new Gson();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(is,
-					Charset.forName("UTF-8")));
-			JsonObject json = gson.fromJson(rd, JsonObject.class);
+		try {
+			is = new URL(url).openStream();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Gson gson = new Gson();
+		BufferedReader rd = new BufferedReader(new InputStreamReader(is,
+				Charset.forName("UTF-8")));
+		JsonObject json = gson.fromJson(rd, JsonObject.class);
 		return json;
 	}
 

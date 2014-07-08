@@ -36,6 +36,7 @@ public class Main {
 		for(int i = 0; i<json.size(); i++){
 			data[0] = json.get(i).getAsJsonObject().get("data_id").getAsString();
 			data[1] = null;
+			System.out.println("Zeile hinzugefügt: " + i);
 			tempModel.addRow(data);
 		}
 		return model;
