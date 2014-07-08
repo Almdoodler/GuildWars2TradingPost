@@ -30,18 +30,18 @@ public class GW2TradingPost extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String[] columnHeaders = {"ID", "Name"};
-	private DefaultTableModel model = new DefaultTableModel( columnHeaders, 0 );
+	private String[] columnHeaders = { "ID", "Name" };
+	private DefaultTableModel model = new DefaultTableModel(columnHeaders, 0);
 	JFrame frame;
 	JPanel mainPanel;
 	JScrollPane scrollPane;
 	JMenuBar menuBarTop;
 	JPanel statusPanel;
-	
+
 	JLabel statusLabel;
 	JButton updateButton;
 	JTable table;
-	
+
 	JMenu mainMenu;
 	JMenu help;
 	JMenuItem favListItem;
@@ -50,10 +50,8 @@ public class GW2TradingPost extends JFrame {
 	JMenuItem close;
 	JMenuItem helpItem;
 	JMenuItem properties;
-	
-	
-	
-	public GW2TradingPost(){
+
+	public GW2TradingPost() {
 		frame = new JFrame("GW 2 Trading Post");
 		mainPanel = new JPanel();
 		statusPanel = new JPanel();
@@ -69,64 +67,60 @@ public class GW2TradingPost extends JFrame {
 		properties = new JMenuItem("Einstellungen");
 		updateButton = new JButton("Aktualisiere Daten");
 		table = new JTable(model);
-		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
+		scrollPane = new JScrollPane(table,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
 		frame.setSize(800, 600);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		mainPanel.setLayout(new BorderLayout());
-		
-		
+
 		statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
 		statusPanel.setLayout(new BorderLayout());
 		statusPanel.setSize(mainPanel.getWidth(), 32);
 		statusPanel.add(statusLabel, BorderLayout.EAST);
 		statusPanel.add(updateButton, BorderLayout.WEST);
-		
+
 		table.setVisible(true);
-		
-		
-		updateButton.addActionListener(new ActionListener(){
+
+		updateButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Main main= new Main();
-				model = main.updateTable((DefaultTableModel)table.getModel());
-				table.setModel(model);
-				SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-				statusLabel.setText("Letzte Aktualsierung: " + format.format(new Date()));
+
 			}
-			
+
 		});
-		
-		favListItem.addActionListener(new ActionListener(){
+
+		favListItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				new FavoriteManagment();
 			}
-			
+
 		});
-		
-		close.addActionListener(new ActionListener(){
+
+		close.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
-			
+
 		});
-		
+
 		help.add(helpItem);
 		help.add(properties);
-		
+
 		mainMenu.add(save);
 		mainMenu.add(saveAs);
 		mainMenu.add(favListItem);
 		mainMenu.addSeparator();
 		mainMenu.add(close);
-		
+
 		menuBarTop.add(mainMenu);
 		menuBarTop.add(help);
 		mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -135,8 +129,8 @@ public class GW2TradingPost extends JFrame {
 		frame.add(mainPanel);
 		frame.setVisible(true);
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		GW2TradingPost window = new GW2TradingPost();
 	}
 
