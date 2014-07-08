@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>40</x>
+      <y>50</y>
+      <w>340</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>JsonIO
+Package::ExportImport
+--
+--
+loadJsonFromURL(String url): JsonObject
+readJsonArray(JsonObject json): JsonArray
+readJsonObject(JsonObject json): JsonObject
+saveJsonToFile(JsonObject json): boolean
+saveJsonArrayToFile(JsonArray jsonArray): boolean
+loadJsonFromFile(String location):JsonObject
+loadJsonArrayFromFile(String location): JsonArray
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>20</x>
+      <y>10</y>
+      <w>390</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>ExportImport</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>30</x>
+      <y>360</y>
+      <w>390</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>Main</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
