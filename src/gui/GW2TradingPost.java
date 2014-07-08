@@ -17,8 +17,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.border.BevelBorder;
+import javax.swing.table.DefaultTableModel;
+
+import main.Main;
 
 public class GW2TradingPost extends JFrame {
 
@@ -26,6 +30,8 @@ public class GW2TradingPost extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String[] columnHeaders = {"ID", "Name"};
+	private DefaultTableModel model = new DefaultTableModel( columnHeaders, 0 );
 	JFrame frame;
 	JPanel mainPanel;
 	JScrollPane scrollPane;
@@ -34,6 +40,7 @@ public class GW2TradingPost extends JFrame {
 	
 	JLabel statusLabel;
 	JButton updateButton;
+	JTable table;
 	
 	JMenu mainMenu;
 	JMenu help;
@@ -61,7 +68,8 @@ public class GW2TradingPost extends JFrame {
 		helpItem = new JMenuItem("Hilfe");
 		properties = new JMenuItem("Einstellungen");
 		updateButton = new JButton("Aktualisiere Daten");
-		scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		table = new JTable(model);
+		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		frame.setSize(800, 600);
 		frame.setResizable(false);
@@ -76,10 +84,16 @@ public class GW2TradingPost extends JFrame {
 		statusPanel.add(statusLabel, BorderLayout.EAST);
 		statusPanel.add(updateButton, BorderLayout.WEST);
 		
+		table.setVisible(true);
+		
+		
 		updateButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				Main main= new Main();
+				model = main.updateTable((DefaultTableModel)table.getModel());
+				table.setModel(model);
 				SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 				statusLabel.setText("Letzte Aktualsierung: " + format.format(new Date()));
 			}
@@ -91,6 +105,15 @@ public class GW2TradingPost extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				new FavoriteManagment();
+			}
+			
+		});
+		
+		close.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
 			}
 			
 		});

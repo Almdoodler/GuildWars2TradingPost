@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,7 +18,7 @@ public class FavoriteManagment extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private JPanel panel;
-	private JPanel gridPanel;
+	private JPanel buttonPanel;
 	private JButton confirmButton;
 	private JButton newFavoriteList;
 	private JButton cancelButton;
@@ -29,13 +29,14 @@ public class FavoriteManagment extends JFrame {
 		confirmButton = new JButton("Bestätigen");
 		cancelButton =new JButton("Abbrechen");
 		panel = new JPanel();
-		gridPanel = new JPanel();
+		buttonPanel = new JPanel();
 		
 		frame.setSize(400, 300);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
 		
 		panel.setLayout(new BorderLayout());
-		gridPanel.setLayout(new GridLayout());
+		buttonPanel.setLayout(new FlowLayout());
 		
 		cancelButton.addActionListener(new ActionListener(){
 
@@ -56,9 +57,9 @@ public class FavoriteManagment extends JFrame {
 			
 		});
 		
-		gridPanel.add(confirmButton);
-		gridPanel.add(cancelButton);
-		panel.add(gridPanel, BorderLayout.SOUTH);
+		buttonPanel.add(confirmButton);
+		buttonPanel.add(cancelButton);
+		panel.add(buttonPanel, BorderLayout.SOUTH);
 		frame.add(panel);
 		frame.setVisible(true);
 	}

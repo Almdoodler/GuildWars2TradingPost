@@ -1,62 +1,33 @@
+
+
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class Test {
 
-	public static void main(String args[]) {
-
+	/**
+	 * Saves given JsonObject at given location
+	 * 
+	 * @param json
+	 * @return true if saving the object was successfully
+	 * @throws IOException
+	 */
+	public boolean saveJsonToFile(JsonObject json) throws IOException {
 		try {
-			JsonObject json = readJsonFromUrl("http://www.gw2spidy.com/api/v0.9/json/item/19746");
-			System.out.println(json.has("data_id"));
-			System.out.println(json.get("data_id"));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	private static JsonObject readJsonFromUrl(String url) throws IOException,
-			JSONException {
-		InputStream is = new URL(url).openStream();
-		Gson gson = new Gson();
-		try {
-			BufferedReader rd = new BufferedReader(new InputStreamReader(is,
-					Charset.forName("UTF-8")));
-			JsonObject json = gson.fromJson(rd, JsonObject.class);
-			if(json.has("results")){
-				json = json.getAsJsonObject("results");
-			}else{
-				json = json.getAsJsonObject("result");
-			}
-			return json;
-		} finally {
-			is.close();
-		}
-	}
-
-	private static boolean saveJsonToFile(JsonObject json) {
-		try {
-			FileWriter file = new FileWriter("C:\\Users\\Markus Klenk\\Desktop\\temp\\test.json");
+			FileWriter file = new FileWriter(
+					"C:\\Users\\Markus Klenk\\Desktop\\temp\\test.json");
 			file.write(json.toString());
 			file.flush();
 			file.close();
@@ -66,4 +37,50 @@ public class Test {
 		}
 		return false;
 	}
+
+	/**
+	 * Retrieves JsonObject from given URL
+	 * 
+	 * @param itemID
+	 * @return JsonObject retrieved from URL
+	 * @throws IOException
+	 * @throws JSONException
+	 */
+	public JsonObject readJsonFromURL(int itemID) {
+		String url = "http://www.gw2spidy.com/api/v0.9/json/item/" + itemID;
+			JsonObject json = loadJsonFromURL(url);
+			json = json.getAsJsonObject("result");
+			return json;
+	}
+	
+	public JsonArray readJsonArrayFromUrl(){
+		JsonObject json = loadJsonFromURL("http://www.gw2spidy.com/api/v0.9/json/all-items/*all*");
+		JsonArray jsonArray = json.get("results").getAsJsonArray();
+		return jsonArray;
+	}
+	
+	private JsonObject loadJsonFromURL(String url){
+		InputStream is = null;
+			try {
+				is = new URL(url).openStream();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Gson gson = new Gson();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is,
+					Charset.forName("UTF-8")));
+			JsonObject json = gson.fromJson(rd, JsonObject.class);
+		return json;
+	}
+	
+	public static void main(String[] aegs){
+		Test test = new Test();
+		JsonObject json = test.readJsonFromURL(19746);
+		JsonArray jsonArray = test.readJsonArrayFromUrl();
+		for(int i = 0; i<jsonArray.size(); i++){
+			System.out.println(jsonArray.get(i).getAsJsonObject().get("data_id"));
+		}
+		System.out.println(json.get("data_id").getAsString());
+	}
+
 }
